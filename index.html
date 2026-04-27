@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoteWise – Your Election Guide</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <header>
+        <h1>🗳️ VoteWise</h1>
+        <p>Your smart, step-by-step guide to understanding elections</p>
+    </header>
+
+    <!-- TIMELINE SECTION -->
+    <section class="timeline-section">
+        <h2>📅 How an Election Works — Step by Step</h2>
+        <div class="timeline">
+
+            <div class="step" onclick="showDetail(0)">
+                <div class="step-icon">1</div>
+                <div class="step-label">Voter Registration</div>
+            </div>
+            <div class="connector"></div>
+
+            <div class="step" onclick="showDetail(1)">
+                <div class="step-icon">2</div>
+                <div class="step-label">Candidate Filing</div>
+            </div>
+            <div class="connector"></div>
+
+            <div class="step" onclick="showDetail(2)">
+                <div class="step-icon">3</div>
+                <div class="step-label">Campaigning</div>
+            </div>
+            <div class="connector"></div>
+
+            <div class="step" onclick="showDetail(3)">
+                <div class="step-icon">4</div>
+                <div class="step-label">Voting Day</div>
+            </div>
+            <div class="connector"></div>
+
+            <div class="step" onclick="showDetail(4)">
+                <div class="step-icon">5</div>
+                <div class="step-label">Result & Oath</div>
+            </div>
+
+        </div>
+
+        <div class="detail-box" id="detail-box">
+            <p>👆 Click any step above to learn more about it</p>
+        </div>
+    </section>
+
+    <!-- AI CHAT SECTION -->
+    <section class="chat-section">
+        <h2>🤖 Ask the Election Assistant</h2>
+        <p class="chat-subtitle">Confused about something? Just ask!</p>
+
+        <div class="chat-box" id="chat-box">
+            <div class="message bot">👋 Hi! I'm VoteWise AI. Ask me anything about elections — voter ID, how to vote,
+                timelines, candidates — anything!</div>
+        </div>
+
+        <div class="chat-input-row">
+            <input type="text" id="user-input" placeholder="e.g. What documents do I need to vote?"
+                aria-label="Ask a question about elections" />
+            <button onclick="askAI()" aria-label="Send question">Send</button>
+            <button onclick="speakLast()" aria-label="Read answer aloud">🔊</button>
+        </div>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section class="quiz-section">
+        <h2>🧠 Test Your Knowledge</h2>
+        <div id="quiz-container"></div>
+        <button onclick="submitQuiz()" id="quiz-btn">Submit Answers</button>
+        <div id="quiz-result"></div>
+    </section>
+
+    <footer>
+        <p>Built with ❤️ using Google Gemini AI | VoteWise 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
