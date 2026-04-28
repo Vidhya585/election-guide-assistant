@@ -3,7 +3,34 @@
 // Powered by Google Gemini AI
 // =============================================
 
-const GEMINI_API_KEY = "YOUAIzaSyBG0WZPan1E9T-3eCskIfsrFefZO2IvNxY"; // 🔑 Replace this
+const GEMINI_API_KEY = "AIzaSyCEk6kCsaOTiFz7I2LmKohPeu8oqvAHr4k";
+
+// --- SECURITY: Input Sanitizer ---
+function sanitizeInput(text) {
+    return text
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#x27;")
+        .trim()
+        .slice(0, 500);
+}
+
+// --- SECURITY: Rate Limiter ---
+const rateLimiter = {
+    count: 0,
+    lastReset: Date.now(),
+    check() {
+        const now = Date.now();
+        if (now - this.lastReset > 60000) {
+            this.count = 0;
+            this.lastReset = now;
+        }
+        if (this.count >= 10) return false;
+        this.count++;
+        return true;
+    }
+};
 
 // --- TIMELINE DATA ---
 const stepDetails = [
@@ -33,8 +60,6 @@ function showDetail(index) {
     const box = document.getElementById("detail-box");
     const item = stepDetails[index];
     box.innerHTML = `<strong>${item.title}</strong><br/><br/>${item.info}`;
-
-    // Highlight active step
     document.querySelectorAll(".step-icon").forEach((el, i) => {
         el.style.background = i === index ? "#fff" : "#f9d342";
         el.style.color = i === index ? "#302b63" : "#0f0c29";
@@ -45,18 +70,19 @@ function showDetail(index) {
 let lastBotMessage = "";
 
 async function askAI() {
-    const input = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
-    const question = input.value.trim();
+    if (!rateLimiter.check()) {
+        alert("Too many requests. Please wait a moment.");
+        return;
+    }
 
+    const input = document.getElementById("user-input");
+    const question = sanitizeInput(input.value);
     if (!question) return;
 
-    // Show user message
     chatBox.innerHTML += `<div class="message user">🙋 ${question}</div>`;
     input.value = "";
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Show loading
     const loadingId = "loading-" + Date.now();
     chatBox.innerHTML += `<div class="message bot" id="${loadingId}">⏳ Thinking...</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -70,8 +96,8 @@ async function askAI() {
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
-                            text: `You are VoteWise, a friendly election guide assistant for Indian elections. 
-Answer the following question clearly, simply, and in 3-5 sentences. 
+                            text: `You are VoteWise, a friendly election guide assistant for Indian elections.
+Answer the following question clearly, simply, and in 3-5 sentences.
 Be factual, helpful, and easy to understand for a first-time voter.
 Question: ${question}`
                         }]
@@ -80,21 +106,27 @@ Question: ${question}`
             }
         );
 
-        const data = await response.json();
-        const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't fetch an answer. Please try again.";
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
 
-        // Replace loading with answer
+        const data = await response.json();
+        const answer = data.candidates?.[0]?.content?.parts?.[0]?.text
+            || "Sorry, I couldn't fetch an answer. Please try again.";
+
         document.getElementById(loadingId).textContent = "🤖 " + answer;
         lastBotMessage = answer;
 
     } catch (err) {
-        document.getElementById(loadingId).textContent = "❌ Something went wrong. Check your API key or internet connection.";
+        document.getElementById(loadingId).textContent =
+            "❌ Something went wrong. Please check your connection and try again.";
+        console.error("API Error:", err.message);
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Allow Enter key to send
+// --- ENTER KEY SUPPORT ---
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("user-input").addEventListener("keydown", (e) => {
         if (e.key === "Enter") askAI();
@@ -102,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadQuiz();
 });
 
-// --- TEXT TO SPEECH (Google Web Speech API) ---
+// --- TEXT TO SPEECH ---
 function speakLast() {
     if (!lastBotMessage) {
         alert("Ask a question first so I can read the answer for you!");
@@ -114,7 +146,7 @@ function speakLast() {
     window.speechSynthesis.speak(utterance);
 }
 
-// --- QUIZ ---
+// --- QUIZ DATA ---
 const quizData = [
     {
         question: "What is the minimum age to vote in India?",
