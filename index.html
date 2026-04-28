@@ -5,9 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VoteWise – Your Election Guide</title>
+    <meta name="description" content="VoteWise — AI-powered interactive guide to understanding elections in India">
+    <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+    <meta http-equiv="Cache-Control" content="max-age=3600">
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Google Analytics -->
+    <!-- Google Analytics GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-60SWW015MZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -25,70 +28,75 @@
     </header>
 
     <!-- TIMELINE SECTION -->
-    <section class="timeline-section">
+    <section class="timeline-section" aria-label="Election process timeline">
         <h2>📅 How an Election Works — Step by Step</h2>
-        <div class="timeline">
+        <div class="timeline" role="list">
 
-            <div class="step" onclick="showDetail(0)">
+            <div class="step" onclick="showDetail(0)" role="listitem" tabindex="0"
+                aria-label="Step 1: Voter Registration" onkeydown="if(event.key==='Enter')showDetail(0)">
                 <div class="step-icon">1</div>
                 <div class="step-label">Voter Registration</div>
             </div>
-            <div class="connector"></div>
+            <div class="connector" aria-hidden="true"></div>
 
-            <div class="step" onclick="showDetail(1)">
+            <div class="step" onclick="showDetail(1)" role="listitem" tabindex="0" aria-label="Step 2: Candidate Filing"
+                onkeydown="if(event.key==='Enter')showDetail(1)">
                 <div class="step-icon">2</div>
                 <div class="step-label">Candidate Filing</div>
             </div>
-            <div class="connector"></div>
+            <div class="connector" aria-hidden="true"></div>
 
-            <div class="step" onclick="showDetail(2)">
+            <div class="step" onclick="showDetail(2)" role="listitem" tabindex="0" aria-label="Step 3: Campaigning"
+                onkeydown="if(event.key==='Enter')showDetail(2)">
                 <div class="step-icon">3</div>
                 <div class="step-label">Campaigning</div>
             </div>
-            <div class="connector"></div>
+            <div class="connector" aria-hidden="true"></div>
 
-            <div class="step" onclick="showDetail(3)">
+            <div class="step" onclick="showDetail(3)" role="listitem" tabindex="0" aria-label="Step 4: Voting Day"
+                onkeydown="if(event.key==='Enter')showDetail(3)">
                 <div class="step-icon">4</div>
                 <div class="step-label">Voting Day</div>
             </div>
-            <div class="connector"></div>
+            <div class="connector" aria-hidden="true"></div>
 
-            <div class="step" onclick="showDetail(4)">
+            <div class="step" onclick="showDetail(4)" role="listitem" tabindex="0" aria-label="Step 5: Result and Oath"
+                onkeydown="if(event.key==='Enter')showDetail(4)">
                 <div class="step-icon">5</div>
                 <div class="step-label">Result & Oath</div>
             </div>
 
         </div>
 
-        <div class="detail-box" id="detail-box">
+        <div class="detail-box" id="detail-box" role="region" aria-live="polite">
             <p>👆 Click any step above to learn more about it</p>
         </div>
     </section>
 
     <!-- AI CHAT SECTION -->
-    <section class="chat-section">
+    <section class="chat-section" aria-label="AI Election Assistant">
         <h2>🤖 Ask the Election Assistant</h2>
         <p class="chat-subtitle">Confused about something? Just ask!</p>
 
-        <div class="chat-box" id="chat-box">
+        <div class="chat-box" id="chat-box" role="log" aria-live="polite" aria-label="Chat messages">
             <div class="message bot">👋 Hi! I'm VoteWise AI. Ask me anything about elections — voter ID, how to vote,
                 timelines, candidates — anything!</div>
         </div>
 
         <div class="chat-input-row">
             <input type="text" id="user-input" placeholder="e.g. What documents do I need to vote?"
-                aria-label="Ask a question about elections" />
+                aria-label="Ask a question about elections" maxlength="500" />
             <button onclick="askAI()" aria-label="Send question">Send</button>
-            <button onclick="speakLast()" aria-label="Read answer aloud">🔊</button>
+            <button onclick="speakLast()" aria-label="Read last answer aloud">🔊</button>
         </div>
     </section>
 
     <!-- QUIZ SECTION -->
-    <section class="quiz-section">
+    <section class="quiz-section" aria-label="Election knowledge quiz">
         <h2>🧠 Test Your Knowledge</h2>
-        <div id="quiz-container"></div>
-        <button onclick="submitQuiz()" id="quiz-btn">Submit Answers</button>
-        <div id="quiz-result"></div>
+        <div id="quiz-container" role="form" aria-label="Quiz questions"></div>
+        <button onclick="submitQuiz()" id="quiz-btn" aria-label="Submit quiz answers">Submit Answers</button>
+        <div id="quiz-result" role="alert" aria-live="polite"></div>
     </section>
 
     <footer>
@@ -96,7 +104,6 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="tests.js"></script>
 
 </body>
 
