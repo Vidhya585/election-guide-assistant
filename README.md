@@ -11,8 +11,10 @@ VoteWise is a single-page web app that makes elections easy to understand throug
 - **Text-to-Speech** (Google Web Speech API) for accessibility
 
 ## Google Services Used
-1. **Google Gemini API** — powers the AI chat assistant
-2. **Google Web Speech API** — reads answers aloud for accessibility
+1. Google Gemini API — AI-powered Q&A chat assistant
+2. Google Web Speech API — voice readout for accessibility  
+3. Google Analytics (GA4) — usage tracking and insights
+4. Google Cloud Run — containerized deployment via Docker
 
 ## How the Solution Works
 1. User clicks any step in the timeline to learn about that phase
