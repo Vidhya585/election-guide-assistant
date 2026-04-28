@@ -35,3 +35,8 @@ VoteWise is a single-page web app that makes elections easy to understand throug
 
 ## Setup
 Replace `YOUR_GEMINI_API_KEY` in `script.js` with your key from https://aistudio.google.com
+
+## Security
+API key is domain-restricted via Google AI Studio referrer settings.
+Input is sanitized to prevent XSS. Rate limiting applied at 10 requests/minute.
+In production, API calls would be proxied server-side.
